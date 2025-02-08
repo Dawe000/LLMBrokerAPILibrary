@@ -25,7 +25,7 @@ const costonTwo = defineChain({
     blockExplorerUrl: "https://coston2-explorer.flare.network"
 });
 
-const _brokerAddress = "0x9e205eD5AdEDC819EDC066CB852CA74B1A7727Fe";
+const _brokerAddress = "0x3CBe3F4adEe9Ae8D5E7f7c2930b37CC983831f6C";
 
 class UserApi {
     constructor(thirdWebClient, account) {
@@ -207,7 +207,7 @@ class UserApi {
         }
     }
 
-    async GetAgreements(serverAddress){
+    async GetClientPubKey(serverAddress,clientAddress){
         const serverContract = getContract({
             address: serverAddress, 
             abi: ServerABI, 
@@ -216,18 +216,129 @@ class UserApi {
         });
 
         try {
-            const agreements = await readContract({
+            const publicKey = await readContract({
                 contract: serverContract,
-                method: "getAgreements",
+                method: "getAgreementPubKey",
+                params: [clientAddress]
+            });
+            return publicKey;
+        } catch (error) {
+            console.error("Error fetching client public key:", error);
+            throw error;
+        }
+    };
+
+    async NotifyResponse(agreementAddress,inputTokens,outputTokens){
+        const agreementContract = getContract({
+            address: agreementAddress, 
+            abi: AgreementABI, 
+            chain: costonTwo, 
+            client: this.thirdWebClient
+        });
+
+        try {
+            const transaction = await prepareContractCall({
+                contract: agreementContract,
+                method: "notifyResponse",
+                params: [inputTokens,outputTokens]
+            });
+            
+            const result = await sendTransaction({
+                transaction,
+                account: this.account,
+                chain: costonTwo
+            });
+            
+            return result;
+        } catch (error) {
+            console.error("Error notifying response:", error);
+            throw error;
+        }
+    };
+
+    async NotifySatisfied(agreementAddress){
+        const agreementContract = getContract({
+            address: agreementAddress, 
+            abi: AgreementABI, 
+            chain: costonTwo, 
+            client: this.thirdWebClient
+        });
+
+        try {
+            const transaction = await prepareContractCall({
+                contract: agreementContract,
+                method: "notifySatisfied",
                 params: []
             });
-            return agreements;
+            
+            const result = await sendTransaction({
+                transaction,
+                account: this.account,
+                chain: costonTwo
+            });
+            
+            return result;
         } catch (error) {
-            console.error("Error fetching agreements:", error);
+            console.error("Error notifying satisfaction:", error);
+            throw error;
+        }
+    };
+
+    async NotifyUnsatisfied(agreementAddress){
+        const agreementContract = getContract({
+            address: agreementAddress, 
+            abi: AgreementABI, 
+            chain: costonTwo, 
+            client: this.thirdWebClient
+        });
+
+        try {
+            const transaction = await prepareContractCall({
+                contract: agreementContract,
+                method: "notifyUnsatisfied",
+                params: []
+            });
+            
+            const result = await sendTransaction({
+                transaction,
+                account: this.account,
+                chain: costonTwo
+            });
+            
+            return result;
+        } catch (error) {
+            console.error("Error notifying unsatisfaction:", error);
+            throw error;
+        }
+    };
+
+    async refundTokens(agreementAddress){
+        const agreementContract = getContract({
+            address: agreementAddress, 
+            abi: AgreementABI, 
+            chain: costonTwo, 
+            client: this.thirdWebClient
+        });
+
+        try {
+            const transaction = await prepareContractCall({
+                contract: agreementContract,
+                method: "refundTokens",
+                params: []
+            });
+            
+            const result = await sendTransaction({
+                transaction,
+                account: this.account,
+                chain: costonTwo
+            });
+            
+            return result;
+        } catch (error) {
+            console.error("Error refunding tokens:", error);
             throw error;
         }
     }
-
 
 }
 
