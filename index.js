@@ -4,7 +4,7 @@ import readline from 'readline';
 import { client } from "./src/client.js";
 import { createWallet, privateKeyToAccount } from "thirdweb/wallets";
 
-let api = new UserApi("http://localhost:8080");
+
 config();
 const rl = readline.createInterface({
     input: process.stdin,
@@ -29,21 +29,19 @@ function removeThinkTags(input) {
 }
 
 async function main() {
-
     const wallet = createWallet("local");
     const account = await privateKeyToAccount({
         client,
         privateKey: process.env.PRIVATE_KEY
     
     });
+    let api = new UserApi(client,account);
 
     console.log(account.address);
-
     const servers = await api.GetServerList();
     console.log(servers);
 
-    //let userapi = new UserApi(client,account);
-    //const serverAddress = await userapi.CreateServer();
+    //const serverAddress = await api.CreateServer();
 }
 
 main(); // Start the main function

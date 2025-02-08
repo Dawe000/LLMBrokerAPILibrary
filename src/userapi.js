@@ -14,7 +14,6 @@ import {
     prepareEvent
 } from "thirdweb";
 import { defineChain } from "thirdweb/chains";
-import { recoverEvent } from 'thirdweb/extensions/farcaster/idRegistry';
 
 // Define Flare Coston 2 Testnet
 const costonTwo = defineChain({

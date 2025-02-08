@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@thirdweb-dev/sdk": "^4.0.99",
     "dotenv": "^16.4.7",
     "thirdweb": "^5.88.1"
   }
