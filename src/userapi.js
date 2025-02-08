@@ -43,7 +43,7 @@ class UserApi {
         const data = {
             context: messages,
             num: max_Tokens,
-            publicAddress: this.thirdWebClient.address,
+            publicAddress: this.account.address,
             signature: signature
         };
         return this.apiClient.post(`/${ai}`, data);
@@ -149,8 +149,84 @@ class UserApi {
         }
     }
 
+    async SetTokenCost(serverAddress, inputCost, outputCost) {
+        const serverContract = getContract({
+            address: serverAddress, 
+            abi: ServerABI, 
+            chain: costonTwo, 
+            client: this.thirdWebClient
+        });
+
+        try {
+            const transaction = await prepareContractCall({
+                contract: serverContract,
+                method: "setTokenCost",
+                params: [inputCost, outputCost]
+            });
+            
+            const result = await sendTransaction({
+                transaction,
+                account: this.account,
+                chain: costonTwo
+            });
+            
+            return result;
+        } catch (error) {
+            console.error("Error setting token cost:", error);
+            throw error;
+        }
+    }
 
 
+    async CreateAgreement(serverAddress, publicKey){
+        const serverContract = getContract({
+            address: serverAddress, 
+            abi: ServerABI, 
+            chain: costonTwo, 
+            client: this.thirdWebClient
+        });
+
+        try{
+            const transaction = await prepareContractCall({
+                contract: serverContract,
+                method: "createAgreement",
+                params: [publicKey]
+            });
+
+            const result = await sendTransaction({
+                transaction,
+                account: this.account,
+                chain: costonTwo
+            });
+
+            return result;
+        }
+        catch(error){
+            console.error("Error creating agreement:", error);
+            throw error;
+        }
+    }
+
+    async GetAgreements(serverAddress){
+        const serverContract = getContract({
+            address: serverAddress, 
+            abi: ServerABI, 
+            chain: costonTwo, 
+            client: this.thirdWebClient
+        });
+
+        try {
+            const agreements = await readContract({
+                contract: serverContract,
+                method: "getAgreements",
+                params: []
+            });
+            return agreements;
+        } catch (error) {
+            console.error("Error fetching agreements:", error);
+            throw error;
+        }
+    }
 
 
 }
