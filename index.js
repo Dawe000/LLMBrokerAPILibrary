@@ -1,5 +1,7 @@
 import { UserApi } from "./src/userapi.js";
 import readline from 'readline';
+import { client } from "./src/client.js";
+import { createWallet, privateKeyToAccount } from "thirdweb/wallets";
 
 let api = new UserApi("http://localhost:8080");
 
@@ -26,25 +28,29 @@ function removeThinkTags(input) {
 }
 
 async function main() {
-    let message = {
-        role: "user",
-        content: ""
-    };
 
-    while (message.content !== "exit") {
-        message.content = await askQuestion("Enter a message (exit to exit): ");
-        
-        if (message.content !== "exit") {
-            messages.push(message);
-            const reply = await api.PromptAI("deepseek", messages, 700);
-            messages = reply.generated_text;
-            const replytext = removeThinkTags(reply.generated_text[reply.generated_text.length - 1].content);
-            console.log(replytext);
-        }
-    }
+    const wallet = createWallet("local");
+    const account = await privateKeyToAccount({
+        client,
+        privateKey: 
 
-    console.log("Goodbye!");
-    rl.close(); // Close the readline interface when done
+    });
+
+    console.log("Wallet address: ", account.address);
+
+    let userapi = new UserApi(client,account);
+    
+    let serverList = await userapi.GetServerList();
+
+    //console.log("Server List: ", serverList);
+
+    let result = await userapi.SetUpModel("0xa51dc9055EB7C2c8cb79018fA30bD6Aa23f21c82","test",12,21,"/test");
+    //let result = await userapi.CreateServer();
+
+
+    serverList = await userapi.GetServerList();
+
+    console.log("Server List: ", serverList);
 }
 
 main(); // Start the main function
