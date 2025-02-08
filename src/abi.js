@@ -109,78 +109,58 @@ export const AgreementABI = [
     ];
 
 
-export const BrokerABI = [
+export const BrokerABI =[
+  {
+    "anonymous": false,
+    "inputs": [
       {
-        "inputs": [],
-        "name": "createServer",
-        "outputs": [
-          {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "indexed": true,
+        "internalType": "address",
+        "name": "serverAddress",
+        "type": "address"
       },
       {
-        "inputs": [
-          {
-            "internalType": "uint32",
-            "name": "index",
-            "type": "uint32"
-          }
-        ],
-        "name": "deleteServer",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
+    ],
+    "name": "serverCreated",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "createServer",
+    "outputs": [
       {
-        "inputs": [],
-        "name": "getAllServers",
-        "outputs": [
-          {
-            "components": [
-              {
-                "internalType": "string",
-                "name": "model",
-                "type": "string"
-              },
-              {
-                "internalType": "uint256",
-                "name": "inputTokenCost",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "outputTokenCost",
-                "type": "uint256"
-              },
-              {
-                "internalType": "address",
-                "name": "serverContract",
-                "type": "address"
-              }
-            ],
-            "internalType": "struct LLMBroker.Server[]",
-            "name": "",
-            "type": "tuple[]"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
       {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "name": "market",
-        "outputs": [
+        "internalType": "uint32",
+        "name": "index",
+        "type": "uint32"
+      }
+    ],
+    "name": "deleteServer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllServers",
+    "outputs": [
+      {
+        "components": [
           {
             "internalType": "string",
             "name": "model",
@@ -200,76 +180,125 @@ export const BrokerABI = [
             "internalType": "address",
             "name": "serverContract",
             "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
           }
         ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint32",
-            "name": "index",
-            "type": "uint32"
-          }
-        ],
-        "name": "updateServerDetails",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint32",
-            "name": "index",
-            "type": "uint32"
-          },
-          {
-            "internalType": "string",
-            "name": "_model",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_inputTokenCost",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_outputTokenCost",
-            "type": "uint256"
-          }
-        ],
-        "name": "updateServerDetails",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint32",
-            "name": "index",
-            "type": "uint32"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_inputTokenCost",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_outputTokenCost",
-            "type": "uint256"
-          }
-        ],
-        "name": "updateServerTokenCost",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "internalType": "struct LLMBroker.Server[]",
+        "name": "",
+        "type": "tuple[]"
       }
-    ];
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "market",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "model",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "inputTokenCost",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "outputTokenCost",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "serverContract",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "index",
+        "type": "uint32"
+      }
+    ],
+    "name": "updateServerDetails",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "index",
+        "type": "uint32"
+      },
+      {
+        "internalType": "string",
+        "name": "_model",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_inputTokenCost",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_outputTokenCost",
+        "type": "uint256"
+      }
+    ],
+    "name": "updateServerDetails",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "index",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_inputTokenCost",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_outputTokenCost",
+        "type": "uint256"
+      }
+    ],
+    "name": "updateServerTokenCost",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+];
 
 export const ServerABI = [
       {

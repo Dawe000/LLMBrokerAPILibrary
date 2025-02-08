@@ -34,24 +34,16 @@ async function main() {
     const account = await privateKeyToAccount({
         client,
         privateKey: process.env.PRIVATE_KEY
-
+    
     });
 
-    console.log("Wallet address: ", account.address);
     console.log(account.address);
-    let userapi = new UserApi(client,account);
-    
-    let serverList = await userapi.GetServerList();
 
-    console.log("Server List: ", serverList);
+    const servers = await api.GetServerList();
+    console.log(servers);
 
-    //let result = await userapi.SetUpModel("0xa51dc9055EB7C2c8cb79018fA30bD6Aa23f21c82","test",12,21,"/test");
-    //let result = await userapi.CreateServer();
-
-
-    //serverList = await userapi.GetServerList();
-
-    //console.log("Server List: ", serverList);
+    //let userapi = new UserApi(client,account);
+    //const serverAddress = await userapi.CreateServer();
 }
 
 main(); // Start the main function

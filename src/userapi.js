@@ -2,15 +2,19 @@ import ApiClient from './apiclient.js';
 import crypto from 'crypto';
 
 import {BrokerABI,ServerABI,AgreementABI} from './abi.js';
-
+import thirdwebPkg from "thirdweb/package.json" with { type: "json" };
 import { 
     createThirdwebClient, 
     getContract, 
     prepareContractCall, 
     readContract,
-    sendTransaction
+    sendTransaction,
+    waitForReceipt,
+    parseEventLogs,
+    prepareEvent
 } from "thirdweb";
 import { defineChain } from "thirdweb/chains";
+import { recoverEvent } from 'thirdweb/extensions/farcaster/idRegistry';
 
 // Define Flare Coston 2 Testnet
 const costonTwo = defineChain({
@@ -25,7 +29,7 @@ const costonTwo = defineChain({
     blockExplorerUrl: "https://coston2-explorer.flare.network"
 });
 
-const _brokerAddress = "0x3CBe3F4adEe9Ae8D5E7f7c2930b37CC983831f6C";
+const _brokerAddress = "0x952c196c741b0919347bD7ACbf9A494C57db9C9C";
 
 class UserApi {
     constructor(thirdWebClient, account) {
@@ -114,10 +118,27 @@ class UserApi {
                 chain: costonTwo
             });
             
-            return result;
-        } catch (error) {
-            console.error("Error creating server:", error);
-            throw error;
+            const receipt = await waitForReceipt(result);
+            
+            const serverCreatedEvent = receipt.logs[0];
+
+            const serverAddress = `0x${serverCreatedEvent.topics[1].slice(26)}`; // Remove padding
+
+            const owner = `0x${serverCreatedEvent.topics[2].slice(26)}`; // Remove padding
+
+            console.log('Server Address:', serverAddress);
+
+            console.log('Owner:', owner);
+
+            return receipt;
+        
+    } catch (error) {
+        console.error("Detailed Error:", {
+            abiStructure: BrokerABI.filter(e => e.type === "event"),
+            thirdwebVersion: thirdwebPkg.version, // Now using ES module import
+            errorStack: error.stack
+        });
+        throw error;
         }
     }
 
@@ -130,7 +151,7 @@ class UserApi {
         });
 
         try {
-            const transaction = await prepareContractCall({
+            const transaction = prepareContractCall({
                 contract: serverContract,
                 method: "setupModel",
                 params: [endpoint, model, inputCost, outputCost]
@@ -177,8 +198,7 @@ class UserApi {
         }
     }
 
-
-    async CreateAgreement(serverAddress, publicKey){
+    async CreateAgreement(serverAddress, publicKey, depositWei){
         const serverContract = getContract({
             address: serverAddress, 
             abi: ServerABI, 
@@ -190,7 +210,8 @@ class UserApi {
             const transaction = await prepareContractCall({
                 contract: serverContract,
                 method: "createAgreement",
-                params: [publicKey]
+                params: [publicKey],
+                value: depositWei
             });
 
             const result = await sendTransaction({
