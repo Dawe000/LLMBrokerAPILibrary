@@ -1,6 +1,6 @@
 {
   "name": "llmbrokerapilib",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "main": "src/index.js",
   "type": "module",
   "exports": {
