@@ -177,7 +177,7 @@ class UserApi {
     async GetServerList() {
         // Create contract with Coston 2 chain
         const brokerContract = getContract({
-            address: _brokerAddress, 
+            address: brokerAddress, 
             abi: BrokerABI, 
             chain: costonTwo, 
             client: this.thirdWebClient
@@ -203,7 +203,7 @@ class UserApi {
      */
     async CreateServer() {
         const brokerContract = getContract({
-            address: _brokerAddress, 
+            address: brokerAddress, 
             abi: BrokerABI, 
             chain: costonTwo, 
             client: this.thirdWebClient
