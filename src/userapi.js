@@ -28,7 +28,7 @@ const costonTwo = defineChain({
     blockExplorerUrl: "https://coston2-explorer.flare.network"
 });
 
-const brokerAddress = "0xd5156DD75a7dAbB7C062F645f019AA79AEb0a008";
+const brokerAddress = "0x83a563d0b5e7562111BEe18b865635e10b99d6EC";
 
 /**
  * UserApi class to interact with the Thirdweb API and the LLMBroker project
