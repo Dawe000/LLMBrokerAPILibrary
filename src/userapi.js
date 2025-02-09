@@ -65,7 +65,7 @@ class UserApi {
         const data = {
             context: messages,
             num: max_Tokens,
-            publicAddress: this.account.address,
+            publicKey: this.account.address,
             signature: signature,
             address: walletAddress
         };
@@ -585,6 +585,27 @@ class UserApi {
         servers = servers.filter(server => server.model === model);
         servers.sort((a,b) => (a.outputCost+a.outputCost) - (b.outputCost+b.outputCost));
         return servers;
+    }
+
+    async GetRemainingTokens(agreementAddress){
+        const agreementContract = getContract({
+            address: agreementAddress, 
+            abi: AgreementABI, 
+            chain: costonTwo, 
+            client: this.thirdWebClient
+        });
+
+        try {
+            const tokens = await readContract({
+                contract: agreementContract,
+                method: "remainingBalance",
+                params: []
+            });
+            return tokens;
+        } catch (error) {
+            console.error("Error fetching remaining tokens:", error);
+            throw error;
+        }
     }
 
 }

@@ -75,6 +75,19 @@ export const AgreementABI = [
   },
   {
     "inputs": [],
+    "name": "remainingBalance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "satisfied",
     "outputs": [],
     "stateMutability": "nonpayable",
