@@ -1,17 +1,26 @@
 {
-  "name": "myaiapilib",
+  "name": "llmbrokerapilib",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/userapi.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Dawid Pisarczyk, Rufus Ponniah",
   "license": "ISC",
-  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dawe000/LLMBrokerAPILibrary.git"
+  },
+  "homepage": "https://github.com/Dawe000/LLMBroker",
+  "description": "Library for interacting with the LLM Broker API",
   "dependencies": {
     "@thirdweb-dev/sdk": "^4.0.99",
-    "dotenv": "^16.4.7",
     "thirdweb": "^5.88.1"
-  }
+  },
+  "files": [
+    "src/*.js",
+    "!src/client.js",
+    "README.md"
+  ]
 }

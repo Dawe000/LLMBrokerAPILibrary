@@ -28,7 +28,7 @@ const costonTwo = defineChain({
     blockExplorerUrl: "https://coston2-explorer.flare.network"
 });
 
-const _brokerAddress = "0x13A9BBC98381Ea209dd6338BD9387Aad11DcD91D";
+const SamplebrokerAddress = "0x13A9BBC98381Ea209dd6338BD9387Aad11DcD91D";
 
 /**
  * UserApi class to interact with the Thirdweb API and the LLMBroker project
@@ -39,14 +39,16 @@ class UserApi {
      * Constructor for the UserApi class
      * @param {Your thirdweb client} thirdWebClient 
      * @param {Web3 Account} account 
+     * @param {Broker contract address} brokerAddress
      */
-    constructor(thirdWebClient, account) {
+    constructor(thirdWebClient, account, brokerAddress="0x13A9BBC98381Ea209dd6338BD9387Aad11DcD91D") {
         
         // If no client is provided, create a default one
         this.thirdWebClient = thirdWebClient || createThirdwebClient({
             clientId: "YOUR_CLIENT_ID" // Replace with your Thirdweb client ID if needed
         });
         this.account = account;
+        this.brokerAddress=brokerAddress
     };
 
     /**
