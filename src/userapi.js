@@ -611,4 +611,4 @@ class UserApi {
 }
 
 // Export the UserApi class
-export {UserApi};
+export default UserApi;
