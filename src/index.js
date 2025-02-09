@@ -1,1 +1,1 @@
-export { UserApi } from './userapi.js';
+export { default } from './userapi.js';
