@@ -1,8 +1,9 @@
 import { config } from "dotenv";
-import { UserApi } from "./src/userapi.js";
+import  UserApi  from "./src/userapi.js";
 import readline from 'readline';
 import { client } from "./src/client.js";
 import { createWallet, privateKeyToAccount } from "thirdweb/wallets";
+import { deposit } from "thirdweb/extensions/erc20";
 
 
 config();
@@ -37,11 +38,21 @@ async function main() {
     });
     let api = new UserApi(client,account);
 
-    //const address = await api.CreateServer();
-    //await api.SetUpModel(address, "test",5,10,"/test");
-
-    const servers = await api.GetSortedServers("test");
+    const servers = await api.GetServerList();
     console.log(servers);
+
+    const selectedServer = await api.GetSortedServers("test");
+    console.log(selectedServer);
+    const depositamount = 1000;
+    const keyPair = await api.CreateKeyPair();
+    const result = await api.CreateAgreement(
+        selectedServer[0].serverContract,
+        keyPair.publicKey,
+        depositamount
+      );
+
+    console.log(result);
+    
 
 }
 

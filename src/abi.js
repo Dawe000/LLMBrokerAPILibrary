@@ -32,7 +32,7 @@ export const AgreementABI = [
         "type": "uint256"
       }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "constructor"
   },
   {
@@ -498,7 +498,7 @@ export const ServerABI = [
       },
       {
         "internalType": "bool",
-        "name": "_costInUsd",
+        "name": "_costInUSD",
         "type": "bool"
       }
     ],
@@ -541,6 +541,11 @@ export const ServerABI = [
         "internalType": "uint256",
         "name": "_outputTokenCost",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_costInUSD",
+        "type": "bool"
       }
     ],
     "name": "setupModel",

@@ -28,7 +28,7 @@ const costonTwo = defineChain({
     blockExplorerUrl: "https://coston2-explorer.flare.network"
 });
 
-const brokerAddress = "0x13A9BBC98381Ea209dd6338BD9387Aad11DcD91D";
+const brokerAddress = "0x9A4ff737efc4a55d628E65E7D7d1d77ee0CD27B1";
 
 /**
  * UserApi class to interact with the Thirdweb API and the LLMBroker project
@@ -39,7 +39,6 @@ class UserApi {
      * Constructor for the UserApi class
      * @param {Your thirdweb client} thirdWebClient 
      * @param {Web3 Account} account 
-     * @param {Broker contract address} brokerAddress
      */
     constructor(thirdWebClient, account) {
         
@@ -319,7 +318,7 @@ class UserApi {
      * @param {Amount of flare in wei being deposited} depositWei 
      * @returns 
      */
-    async CreateAgreement(serverAddress, publicKey, depositWei){
+    async CreateAgreement(serverAddress, publicKey, depositWei) {
         const serverContract = getContract({
             address: serverAddress, 
             abi: ServerABI, 
@@ -327,12 +326,25 @@ class UserApi {
             client: this.thirdWebClient
         });
 
-        try{
+        try {
+            // Convert PEM public key to a simpler numeric format
+            const cleanKey = publicKey
+                .replace('-----BEGIN PUBLIC KEY-----', '')
+                .replace('-----END PUBLIC KEY-----', '')
+                .replace(/\n/g, '')
+                .trim();
+            
+            // Take first 32 characters of the base64 string and convert to number
+            const keyIdentifier = BigInt('0x' + Buffer.from(cleanKey.slice(0, 32), 'base64').toString('hex'));
+
+            console.log("Debug - Key identifier:", keyIdentifier.toString());
+            console.log("Debug - Deposit amount:", depositWei.toString());
+
             const transaction = await prepareContractCall({
                 contract: serverContract,
                 method: "createAgreement",
-                params: [publicKey],
-                value: depositWei
+                params: [keyIdentifier],
+                value: BigInt(depositWei)
             });
 
             const result = await sendTransaction({
@@ -341,11 +353,20 @@ class UserApi {
                 chain: costonTwo
             });
 
-            return result;
+            // Wait for receipt to confirm transaction
+            const receipt = await waitForReceipt(result);
+            console.log("Transaction receipt:", receipt);
+
+            return receipt;
         }
-        catch(error){
-            console.error("Error creating agreement:", error);
-            throw error;
+        catch(error) {
+            console.error("Error creating agreement:", {
+                error,
+                serverAddress,
+                depositWei: depositWei?.toString(),
+                publicKeyLength: publicKey?.length
+            });
+            throw new Error(`Failed to create agreement: ${error.message || error.code}`);
         }
     };
 
