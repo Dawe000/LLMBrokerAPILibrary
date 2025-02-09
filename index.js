@@ -41,17 +41,13 @@ async function main() {
     const servers = await api.GetServerList();
     console.log(servers);
 
-    const selectedServer = await api.GetSortedServers("test");
+    const selectedServer = await api.GetSortedServers("deepseek-r1:14b");
     console.log(selectedServer);
-    const depositamount = 1000;
-    const keyPair = await api.CreateKeyPair();
-    const result = await api.CreateAgreement(
-        selectedServer[0].serverContract,
-        keyPair.publicKey,
-        depositamount
-      );
 
-    console.log(result);
+    console.log("Server selected: ", selectedServer[0].serverContract);
+
+    const endpoint = await api.GetServerEndpoint(selectedServer[0].serverContract);
+    console.log(endpoint);
     
 
 }

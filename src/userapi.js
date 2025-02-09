@@ -28,7 +28,7 @@ const costonTwo = defineChain({
     blockExplorerUrl: "https://coston2-explorer.flare.network"
 });
 
-const brokerAddress = "0x9A4ff737efc4a55d628E65E7D7d1d77ee0CD27B1";
+const brokerAddress = "0xd5156DD75a7dAbB7C062F645f019AA79AEb0a008";
 
 /**
  * UserApi class to interact with the Thirdweb API and the LLMBroker project
@@ -624,6 +624,27 @@ class UserApi {
             return tokens;
         } catch (error) {
             console.error("Error fetching remaining tokens:", error);
+            throw error;
+        }
+    }
+
+    async GetServerEndpoint(serverAddress){
+        const serverContract = getContract({
+            address: serverAddress, 
+            abi: ServerABI, 
+            chain: costonTwo, 
+            client: this.thirdWebClient
+        });
+
+        try {
+            const endpoint = await readContract({
+                contract: serverContract,
+                method: "endpoint",
+                params: []
+            });
+            return endpoint;
+        } catch (error) {
+            console.error("Error fetching server endpoint:", error);
             throw error;
         }
     }
