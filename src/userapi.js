@@ -59,7 +59,7 @@ class UserApi {
      */
     async PromptAI(URL, messages, max_Tokens, keyPair, walletAddress) {
         let apiClient = new ApiClient(URL);
-        const signature = this.SignTransaction(messages, keyPair.privateKey);
+        const signature = "spongrom";
         const data = {
             context: messages,
             num: max_Tokens,
