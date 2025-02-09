@@ -59,14 +59,15 @@ class UserApi {
      * @param {SHA256 Keypair for interacting with API and contract} keyPair 
      * @returns 
      */
-    async PromptAI(URL, messages, max_Tokens, keyPair) {
+    async PromptAI(URL, messages, max_Tokens, keyPair, walletAddress) {
         let apiClient = new ApiClient(URL);
         const signature = this.SignTransaction(messages, keyPair.privateKey);
         const data = {
             context: messages,
             num: max_Tokens,
             publicAddress: this.account.address,
-            signature: signature
+            signature: signature,
+            address: walletAddress
         };
         return this.apiClient.post(`/`, data);
     };
