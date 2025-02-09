@@ -34,7 +34,7 @@ const SamplebrokerAddress = "0x13A9BBC98381Ea209dd6338BD9387Aad11DcD91D";
  * UserApi class to interact with the Thirdweb API and the LLMBroker project
  * 
  */
-class UserApi {
+export class UserApi {
     /**
      * Constructor for the UserApi class
      * @param {Your thirdweb client} thirdWebClient 
@@ -611,4 +611,4 @@ class UserApi {
 }
 
 // Export the UserApi class
-export { UserApi };
+export {UserApi};

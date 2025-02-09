@@ -1,8 +1,11 @@
 {
   "name": "llmbrokerapilib",
-  "version": "1.0.4",
+  "version": "1.0.9",
   "main": "src/index.js",
   "type": "module",
+  "exports": {
+    ".": "./src/index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
