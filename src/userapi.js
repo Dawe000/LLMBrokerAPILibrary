@@ -67,7 +67,7 @@ class UserApi {
             signature: signature,
             address: walletAddress
         };
-        return this.apiClient.post(`/`, data);
+        return apiClient.post(`/`, data);
     };
 
     /**
