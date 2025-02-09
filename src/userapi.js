@@ -202,7 +202,7 @@ class UserApi {
      */
     async CreateServer() {
         const brokerContract = getContract({
-            address: this.brokerAddress, 
+            address: brokerAddress, 
             abi: BrokerABI, 
             chain: costonTwo, 
             client: this.thirdWebClient
