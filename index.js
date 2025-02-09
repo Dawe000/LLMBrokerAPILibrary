@@ -37,11 +37,12 @@ async function main() {
     });
     let api = new UserApi(client,account);
 
-    console.log(account.address);
-    const servers = await api.GetServerList();
+    //const address = await api.CreateServer();
+    //await api.SetUpModel(address, "test",5,10,"/test");
+
+    const servers = await api.GetSortedServers("test");
     console.log(servers);
 
-    //const serverAddress = await api.CreateServer();
 }
 
 main(); // Start the main function
